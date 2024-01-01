@@ -6,16 +6,17 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// ExtractUserID extracts the user ID from the JWT token in the request context.
-func ExtractUserID(ctx *gin.Context) (uint, error) {
+// ExtractCustomUserID extracts the user ID from the JWT token in the request context.
+func ExtractCustomUserID(ctx *gin.Context) (string, error) {
 	userID, exists := ctx.Get("userID")
 	if !exists {
-		return 0, errors.New("user ID not found in context")
+		return "", errors.New("user ID not found in context")
 	}
-	return userID.(uint), nil
+	return userID.(string), nil
 }
 
-// AddToBlacklist adds the token to a blacklist (or performs any other action to invalidate the token).
-func AddToBlacklist(userID uint) error {
+// AddToCustomBlacklist adds the token to a blacklist (or performs any other action to invalidate the token).
+func AddToCustomBlacklist(userID string) error {
+	// Implement your logic to invalidate the token or perform any other necessary actions
 	return nil
 }
