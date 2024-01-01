@@ -12,12 +12,12 @@ import (
 	"gorm.io/gorm"
 )
 
-type PhotoController struct {
+type CustomPhotoController struct {
 	DB *gorm.DB
 }
 
-func (pc *PhotoController) CreatePhoto(ctx *gin.Context) {
-	var newPhoto app.Photo
+func (pc *CustomPhotoController) CreateCustomPhoto(ctx *gin.Context) {
+	var newPhoto app.CustomPhoto
 
 	userID, exists := ctx.Get("userID")
 	if !exists {
@@ -31,8 +31,8 @@ func (pc *PhotoController) CreatePhoto(ctx *gin.Context) {
 		return
 	}
 
-	newPhoto.Title = ctx.PostForm("title")
-	newPhoto.Caption = ctx.PostForm("caption")
+	newPhoto.Title = ctx.PostForm("custom_title")
+	newPhoto.Caption = ctx.PostForm("custom_caption")
 
 	if newPhoto.Title == "" || newPhoto.Caption == "" {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Title dan caption wajib diisi"})
@@ -59,7 +59,7 @@ func (pc *PhotoController) CreatePhoto(ctx *gin.Context) {
 		return
 	}
 
-	newPhoto.PhotoUrl = filePath
+	newPhoto.PhotoURL = filePath
 
 	if err := pc.DB.Create(&newPhoto).Error; err != nil {
 		fmt.Println(err.Error())
@@ -70,18 +70,18 @@ func (pc *PhotoController) CreatePhoto(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, newPhoto)
 }
 
-func (pc *PhotoController) GetPhotos(ctx *gin.Context) {
-	var photos []app.Photo
+func (pc *CustomPhotoController) GetCustomPhotos(ctx *gin.Context) {
+	var photos []app.CustomPhoto
 
 	pc.DB.Find(&photos)
 
 	ctx.JSON(http.StatusOK, photos)
 }
 
-func (pc *PhotoController) GetPhoto(ctx *gin.Context) {
+func (pc *CustomPhotoController) GetCustomPhoto(ctx *gin.Context) {
 	photoID := ctx.Param("photoId")
 
-	var photo app.Photo
+	var photo app.CustomPhoto
 	if err := pc.DB.Where("id = ?", photoID).First(&photo).Error; err != nil {
 		ctx.JSON(http.StatusNotFound, gin.H{"error": "Photo tidak ditemukan"})
 		return
@@ -90,16 +90,16 @@ func (pc *PhotoController) GetPhoto(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, photo)
 }
 
-func (pc *PhotoController) UpdatePhoto(ctx *gin.Context) {
+func (pc *CustomPhotoController) UpdateCustomPhoto(ctx *gin.Context) {
 	photoID := ctx.Param("photoId")
 
-	var existingPhoto app.Photo
+	var existingPhoto app.CustomPhoto
 	if err := pc.DB.Where("id = ?", photoID).First(&existingPhoto).Error; err != nil {
 		ctx.JSON(http.StatusNotFound, gin.H{"error": "Photo tidak ditemukan"})
 		return
 	}
 
-	var updatedPhoto app.Photo
+	var updatedPhoto app.CustomPhoto
 	if err := ctx.ShouldBindJSON(&updatedPhoto); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -118,10 +118,10 @@ func (pc *PhotoController) UpdatePhoto(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, existingPhoto)
 }
 
-func (pc *PhotoController) DeletePhoto(ctx *gin.Context) {
+func (pc *CustomPhotoController) DeleteCustomPhoto(ctx *gin.Context) {
 	photoID := ctx.Param("photoId")
 
-	var existingPhoto app.Photo
+	var existingPhoto app.CustomPhoto
 	if err := pc.DB.Where("id = ?", photoID).First(&existingPhoto).Error; err != nil {
 		ctx.JSON(http.StatusNotFound, gin.H{"error": "Photo tidak ditemukan"})
 		return
