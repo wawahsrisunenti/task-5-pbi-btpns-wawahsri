@@ -4,8 +4,8 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-// HashPassword hashes the given password using bcrypt.
-func HashPassword(password string) (string, error) {
+// CustomHashPassword meng-hash password yang diberikan menggunakan bcrypt.
+func CustomHashPassword(password string) (string, error) {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
 		return "", err
