@@ -1,5 +1,3 @@
-// database/database.go
-
 package database
 
 import (
@@ -14,8 +12,8 @@ import (
 	"gorm.io/gorm/logger"
 )
 
-// InitDB menginisialisasi koneksi ke PostgreSQL
-func InitDB() *gorm.DB {
+// ConnectDB menginisialisasi koneksi ke PostgreSQL
+func ConnectDB() *gorm.DB {
 	// Load variabel lingkungan dari file .env
 	loadEnv()
 
@@ -36,7 +34,7 @@ func InitDB() *gorm.DB {
 		log.Fatalf("Failed to connect to the database: %v", err)
 	}
 
-	err = db.Debug().AutoMigrate(&models.User{}, &models.Photo{})
+	err = db.Debug().AutoMigrate(&models.CustomUser{}, &models.CustomPhoto{})
 	if err != nil {
 		panic("Failed to migrate database")
 	}
