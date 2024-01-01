@@ -17,7 +17,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"raie a\",\r\n    \"email\": \"rai@gmail.com\",\r\n    \"password\": \"123\"\r\n}",
+							"raw": "{\r\n    \"username\": \"wawah sri\",\r\n    \"email\": \"wawahsrisunenti@gmail.com\",\r\n    \"password\": \"123\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -44,7 +44,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"rai_updatess@gmail.com\",\r\n    \"password\": \"123\"\r\n}",
+							"raw": "{\r\n    \"email\": \"wawah_updatess@gmail.com\",\r\n    \"password\": \"123\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -77,7 +77,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"raie as update\",\r\n    \"email\": \"rai_updatessa@gmail.com\",\r\n    \"password\": \"1234\"\r\n}",
+							"raw": "{\r\n    \"username\": \"wawah sri as update\",\r\n    \"email\": \"wawah_updatesss@gmail.com\",\r\n    \"password\": \"1234\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -94,7 +94,7 @@
 								"b6e84686-e080-4012-a760-636f9dadae5f"
 							]
 						},
-						"description": "Pergi ke database dari project, lalu salin id dari user yg ingin di update dan di delete.  \n  \nJika ingin melakukan Update / Delete User lain, Logout terlebih dahulu"
+						"description": "Pergi ke database dari project, lalu salin id dari user yg ingin di update dan di delete.  \n  \nJika ingin Update / Delete User lain, Logout dahulu"
 					},
 					"response": []
 				},
@@ -140,7 +140,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"rai_updatess@gmail.com\",\r\n    \"password\": \"123\"\r\n}",
+							"raw": "{\r\n    \"email\": \"wawah_updatess@gmail.com\",\r\n    \"password\": \"123\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -186,7 +186,7 @@
 								{
 									"key": "file",
 									"type": "file",
-									"src": "/C:/Users/A S P I R E  5/Pictures/Download/New folder/yt tumb.png"
+									"src": "C:/Users/wawah/OneDrive/Gambar/Saved Pictures"
 								}
 							]
 						},
@@ -227,7 +227,7 @@
 								{
 									"key": "file",
 									"type": "file",
-									"src": "/C:/Users/A S P I R E  5/Pictures/Download/New folder/jepg.jpg"
+									"src": "C:/Users/wawah/OneDrive/Gambar/Saved Pictures"
 								}
 							]
 						},
@@ -268,7 +268,7 @@
 								{
 									"key": "file",
 									"type": "file",
-									"src": "/C:/Users/A S P I R E  5/Pictures/Download/New folder/jepg.jpg"
+									"src": "C:/Users/wawah/OneDrive/Gambar/Saved Pictures"
 								}
 							]
 						},
@@ -380,3 +380,6 @@
 		}
 	]
 }
+
+
+							
