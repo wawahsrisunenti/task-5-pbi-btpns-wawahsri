@@ -11,12 +11,12 @@ import (
 	"gorm.io/gorm"
 )
 
-type UserController struct {
+type CustomUserController struct {
 	DB *gorm.DB
 }
 
-func (uc *UserController) RegisterUser(ctx *gin.Context) {
-	var newUser app.User
+func (uc *CustomUserController) RegisterCustomUser(ctx *gin.Context) {
+	var newUser app.CustomUser
 	if err := ctx.ShouldBindJSON(&newUser); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -27,13 +27,13 @@ func (uc *UserController) RegisterUser(ctx *gin.Context) {
 		return
 	}
 
-	var existingUser app.User
+	var existingUser app.CustomUser
 	if err := uc.DB.Where("email = ?", newUser.Email).First(&existingUser).Error; err == nil {
 		ctx.JSON(http.StatusConflict, gin.H{"error": "Email sudah terdaftar"})
 		return
 	}
 
-	hashedPassword, err := app.HashPassword(newUser.Password)
+	hashedPassword, err := app.CustomHashPassword(newUser.Password)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Error hashing password"})
 		return
@@ -43,7 +43,7 @@ func (uc *UserController) RegisterUser(ctx *gin.Context) {
 
 	uc.DB.Create(&newUser)
 
-	token, err := helpers.GenerateToken(newUser.ID)
+	token, err := helpers.GenerateCustomToken(newUser.ID)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Gagal generate token"})
 		return
@@ -52,8 +52,8 @@ func (uc *UserController) RegisterUser(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, gin.H{"token": token, "userID": newUser.ID})
 }
 
-func (uc *UserController) LoginUser(ctx *gin.Context) {
-	var loginUser app.User
+func (uc *CustomUserController) LoginCustomUser(ctx *gin.Context) {
+	var loginUser app.CustomUser
 	if err := ctx.ShouldBindJSON(&loginUser); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -64,7 +64,7 @@ func (uc *UserController) LoginUser(ctx *gin.Context) {
 		return
 	}
 
-	var existingUser app.User
+	var existingUser app.CustomUser
 	if err := uc.DB.Where("email = ?", loginUser.Email).First(&existingUser).Error; err != nil {
 		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "Email Salah"})
 		return
@@ -75,7 +75,7 @@ func (uc *UserController) LoginUser(ctx *gin.Context) {
 		return
 	}
 
-	token, err := helpers.GenerateToken(existingUser.ID)
+	token, err := helpers.GenerateCustomToken(existingUser.ID)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Gagal generate token"})
 		return
@@ -84,16 +84,16 @@ func (uc *UserController) LoginUser(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{"token": token, "userID": existingUser.ID})
 }
 
-func (uc *UserController) UpdateUser(ctx *gin.Context) {
+func (uc *CustomUserController) UpdateCustomUser(ctx *gin.Context) {
 	userID := ctx.Param("userId")
 
-	var existingUser app.User
+	var existingUser app.CustomUser
 	if err := uc.DB.Where("id = ?", userID).First(&existingUser).Error; err != nil {
 		ctx.JSON(http.StatusNotFound, gin.H{"error": "User tidak ditemukan"})
 		return
 	}
 
-	var updatedUser app.User
+	var updatedUser app.CustomUser
 	if err := ctx.ShouldBindJSON(&updatedUser); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -104,7 +104,7 @@ func (uc *UserController) UpdateUser(ctx *gin.Context) {
 		return
 	}
 
-	hashedPassword, err := app.HashPassword(updatedUser.Password)
+	hashedPassword, err := app.CustomHashPassword(updatedUser.Password)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Gagal hashing password"})
 		return
@@ -119,10 +119,10 @@ func (uc *UserController) UpdateUser(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, existingUser)
 }
 
-func (uc *UserController) DeleteUser(ctx *gin.Context) {
+func (uc *CustomUserController) DeleteCustomUser(ctx *gin.Context) {
 	userID := ctx.Param("userId")
 
-	var existingUser app.User
+	var existingUser app.CustomUser
 	if err := uc.DB.Where("id = ?", userID).First(&existingUser).Error; err != nil {
 		ctx.JSON(http.StatusNotFound, gin.H{"error": "User tidak ditemukan"})
 		return
@@ -133,7 +133,7 @@ func (uc *UserController) DeleteUser(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{"message": "User berhasil dihapus", "userId": userID})
 }
 
-func (uc *UserController) LogoutUser(ctx *gin.Context) {
+func (uc *CustomUserController) LogoutCustomUser(ctx *gin.Context) {
 	// Extract user ID from the token
 	userID, err := helpers.ExtractUserID(ctx)
 	if err != nil {
