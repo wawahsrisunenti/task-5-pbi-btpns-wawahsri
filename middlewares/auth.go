@@ -10,7 +10,8 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-func AuthMiddleware() gin.HandlerFunc {
+// CustomAuthMiddleware is a custom authentication middleware.
+func CustomAuthMiddleware() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		tokenString := ctx.GetHeader("Authorization")
 
@@ -30,7 +31,7 @@ func AuthMiddleware() gin.HandlerFunc {
 		tokenString = splitToken[1]
 
 		token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
-			return []byte(helpers.GetSecretKey()), nil
+			return []byte(helpers.CustomGetSecretKey()), nil
 		})
 
 		if err != nil || !token.Valid {
