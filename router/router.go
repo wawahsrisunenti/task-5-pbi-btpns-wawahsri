@@ -12,25 +12,26 @@ import (
 func SetupRouter(db *gorm.DB) *gin.Engine {
 	r := gin.Default()
 
-	userController := controllers.UserController{DB: db}
-	photoController := controllers.PhotoController{DB: db}
+	userCtrl := controllers.UserController{DB: db}
+	photoCtrl := controllers.PhotoController{DB: db}
 
 	userRoutes := r.Group("/users")
 	{
-		userRoutes.POST("/register", userController.RegisterUser)
-		userRoutes.POST("/login", userController.LoginUser)
-		userRoutes.PUT("/:userId", middlewares.AuthMiddleware(), userController.UpdateUser)
-		userRoutes.DELETE("/:userId", middlewares.AuthMiddleware(), userController.DeleteUser)
-		userRoutes.POST("/logout", middlewares.AuthMiddleware(), userController.LogoutUser)
+		userRoutes.POST("/register", userCtrl.RegisterUser)
+		userRoutes.POST("/login", userCtrl.LoginUser)
+		userRoutes.PUT("/:userId", middlewares.AuthMiddleware(), userCtrl.UpdateUser)
+		userRoutes.DELETE("/:userId", middlewares.AuthMiddleware(), userCtrl.DeleteUser)
+		userRoutes.POST("/logout", middlewares.AuthMiddleware(), userCtrl.LogoutUser)
 	}
 
 	photoRoutes := r.Group("/photos")
+	photoRoutes.Use(middlewares.AuthMiddleware()) // Middleware applied to all photo routes
 	{
-		photoRoutes.POST("/", middlewares.AuthMiddleware(), photoController.CreatePhoto)
-		photoRoutes.GET("/", photoController.GetPhotos)
-		photoRoutes.GET("/:photoId", middlewares.AuthMiddleware(), photoController.GetPhoto)
-		photoRoutes.PUT("/:photoId", middlewares.AuthMiddleware(), photoController.UpdatePhoto)
-		photoRoutes.DELETE("/:photoId", middlewares.AuthMiddleware(), photoController.DeletePhoto)
+		photoRoutes.POST("/", photoCtrl.CreatePhoto)
+		photoRoutes.GET("/", photoCtrl.GetPhotos)
+		photoRoutes.GET("/:photoId", photoCtrl.GetPhoto)
+		photoRoutes.PUT("/:photoId", photoCtrl.UpdatePhoto)
+		photoRoutes.DELETE("/:photoId", photoCtrl.DeletePhoto)
 	}
 
 	return r
