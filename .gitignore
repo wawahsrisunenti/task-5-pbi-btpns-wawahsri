@@ -1,0 +1,17 @@
+# Compiled binary
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+tmp/
+
+# Go related
+*.log
+*.out
+
+# Environment variable file
+.env
+
+# static dir
+uploads
