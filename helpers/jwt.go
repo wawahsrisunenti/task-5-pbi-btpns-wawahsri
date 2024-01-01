@@ -8,8 +8,9 @@ import (
 	"github.com/google/uuid"
 )
 
-func GenerateToken(userID uuid.UUID) (string, error) {
-	secretKey := []byte(GetSecretKey())
+// CustomGenerateToken generates a JWT token for the given user ID.
+func CustomGenerateToken(userID uuid.UUID) (string, error) {
+	secretKey := []byte(CustomGetSecretKey())
 
 	claims := jwt.MapClaims{
 		"user_id": userID,
@@ -25,7 +26,8 @@ func GenerateToken(userID uuid.UUID) (string, error) {
 	return tokenString, nil
 }
 
-func GetSecretKey() string {
+// CustomGetSecretKey retrieves the secret key for JWT signing.
+func CustomGetSecretKey() string {
 	secretKey := config.GetSecretKey()
 	if secretKey == "" {
 		secretKey = "defaultsecret"
